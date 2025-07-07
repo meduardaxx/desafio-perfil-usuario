@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Perfil do Usuário</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #fff;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .voltar {
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    .profile-img {
+      display: flex;
+      justify-content: center;
+      margin: 20px 0 10px;
+    }
+
+    .profile-img img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+    }
+
+    .nome {
+      text-align: center;
+      margin: 0;
+      font-size: 1.2rem;
+    }
+
+    .bio {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #777;
+      margin-bottom: 20px;
+    }
+
+    .formulario label {
+      font-weight: bold;
+      font-size: 0.9rem;
+      margin-top: 10px;
+      display: block;
+    }
+
+    .formulario input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 12px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .btn-editar {
+      width: 100%;
+      background: #e0e0e0;
+      padding: 12px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    /* Layout desktop */
+    @media (min-width: 768px) {
+      .container {
+        flex-direction: row;
+        height: 100vh;
+      }
+
+      .sidebar {
+        width: 20%;
+        background-color: #1c391c;
+        color: white;
+        padding: 20px;
+      }
+
+      .main-content {
+        width: 80%;
+        padding: 20px;
+      }
+
+      .container-mobile {
+        display: none;
+      }
+    }
+
+    @media (max-width: 767px) {
+      .sidebar, .main-content {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Lateral (versão desktop) -->
+    <div class="sidebar">
+      <h3>Menu</h3>
+      <ul>
+        <li>Perfil</li>
+        <li>Configurações</li>
+        <li>Logout</li>
+      </ul>
+    </div>
+
+    <!-- Conteúdo principal -->
+    <div class="main-content">
+      <div class="profile-img">
+        <img src="https://via.placeholder.com/80" alt="Imagem de Perfil">
+      </div>
+      <h3 class="nome">Maria Eduarda Alves</h3>
+      <p class="bio">Lorem ipsum dolor sit amet consectetur.</p>
+      <form class="formulario">
+        <label for="idade">Idade</label>
+        <input type="text" id="idade" value="20 anos" disabled />
+
+        <label for="logradouro">Logradouro</label>
+        <input type="text" id="logradouro" value="Rua Olavio Pacheco de Souza" disabled />
+
+        <label for="bairro">Bairro</label>
+        <input type="text" id="bairro" value="Areias de Palhocinha" disabled />
+
+        <label for="cidade">Cidade</label>
+        <input type="text" id="cidade" value="Garopaba" disabled />
+
+        <label for="estado">Estado</label>
+        <input type="text" id="estado" value="Santa Catarina" disabled />
+      </form>
+      <button class="btn-editar">Editar perfil</button>
+    </div>
+  </div>
+</body>
+</html>
