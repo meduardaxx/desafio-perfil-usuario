@@ -4,23 +4,72 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sync360</title>
+  <link rel="shortcut icon" href="imagens/favicon.ico.png" type="image/x-icon">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
-  <div class="top-bar" role="banner" aria-label="Barra superior do sistema"></div>
-
-  <div class="main">
-    <aside class="sidebar" role="navigation" aria-label="Menu lateral">
-        <div class="sidebar__item" tabindex="0"></div>
-        <div class="sidebar__item" tabindex="0"></div>
-        <div class="sidebar__item" tabindex="0"></div>
-        <div class="sidebar__item" tabindex="0"></div>
-        <div class="sidebar__item" tabindex="0"></div>
-        <div class="sidebar__item" tabindex="0"></div>
+  <header>
+    <h1>Vestiário</h1>
+    <div class="top-bar-right">
+      <button class="icon-button" aria-label="Notificações">
+        <i class="fas fa-bell"></i></button>
+      <div class="user-info">
+        <img src="imagens/avatar.png" alt="Foto do usuário" class="user-avatar">
+          <button class="user-name" aria-haspopup="true" aria-expanded="false">
+            Mori <i class="fas fa-caret-down"></i>
+          </button>
+      </div>
+    </div>
+  </header>
+    
+  <div class="main-layout">
+    <aside class="sidebar">
+      <ul class="menu-list">
+        <li>
+          <a href="#">
+            <i class="fas fa-th-large"></i> Painel de Controle
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <i class="fas fa-box"></i> Produtos
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <i class="fas fa-users"></i> Clientes
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <i class="fas fa-hammer"></i> Obras
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <i class="fas fa-list"></i> Lista
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <i class="fas fa-file-invoice-dollar"></i> Orçamentos
+          </a>
+        </li>
+      </ul>
     </aside>
 
     <section class="content" role="main">
-      <!-- Conteúdo principal virá aqui futuramente -->
+      <p>Bem-vindo ao seu painel!</p>
+      <p>Aqui você encontrará todas as informações e ferramentas necessárias para gerenciar seu empreendimento.</p>
+      <div style="height: 1000px; background-color: #f0f0f0; padding: 20px; border-radius: 8px; margin-top: 20px;">
+        <p>Este é um bloco de conteúdo de exemplo para preencher o espaço e testar o scroll.</p>
+        <p>Imagine gráficos, tabelas e informações importantes do seu negócio aqui.</p>
+        <p>Como você sonha em ajudar pessoas a abrir seus negócios, essa área será o coração do seu sistema!</p>
+        <p>Foque em tornar essa experiência intuitiva e valiosa para seus futuros clientes.</p>
+        <p>Com sua visão de IA, marketing digital e empreendedorismo, você vai criar algo realmente inovador.</p>
+        <p>E a fluência em inglês em um ano vai abrir muitas portas, viu?</p>
+      </div>
     </section>
   </div>
 </body>
