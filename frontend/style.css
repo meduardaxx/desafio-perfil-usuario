@@ -19,14 +19,71 @@ body {
     color: #333;
 }
 
-.top-bar {
-    background-color: #1C391C;
+header {
+    background-color: var(--green-dark);
     height: 40px;
     width: 100%;
+    display: flex;
+    justify-content: space-between; /* Para espaçar o h1 e a área do usuário */
+    align-items: center;
+    padding: 0 20px;
 }
 
-.main {
+header > h1 {
+    color: var(--white);
+    font-family: Arial, sans-serif;
+    font-size: 1.2em;
+    margin: 0; /* Remove margem padrão do h1 */
+}
+
+.top-bar__right {
+  display: flex;
+  align-items: center; /* Alinha verticalmente os itens do lado direito */
+  gap: 20px;
+}
+
+.icon-button {
+  background: none;
+  border: none;
+  font-size: 1.1em; /* Ajuste para um tamanho visualmente agradável */
+  color: var(--white);
+  padding: 0;
+  cursor: pointer;
+  display: flex; /* Para alinhar o ícone/texto*/
+  align-items: center;
+  justify-content: center;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 4px;
+}
+
+.user-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.user-name {
+  background: none;
+  border: none;
+  color: var(--white);
+  font-size: 0.9rem;
+  cursor: pointer;
+  font-family: Arial, sans-serif;
+}
+
+
+/* CONTAINER FLEX P/ LAYOUT PRINCIPAL*/
+.main-layout {
     display: flex;
+
+    /* Calcula a altura total da área de conteúdo (100% da viewport - altura do header) */
     height: calc(100vh - 40px);
 }
 
@@ -35,44 +92,111 @@ body {
     background-color: var(--gray-light);
     border-right: 1px solid var(--gray-border);
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* Para os itens do menu ficarem um abaixo do outro */
+    padding-top: 20px; 
+    overflow-y: auto; /* Adiciona scroll se o menu for muito grande */
+    flex-shrink: 0; /* Garante que a sidebar não encolha em telas maiores */
 }
 
-.sidebar_item {
-    height: 50px;
-    border-bottom: 1px solid var(--gray-border);
-    background-color: var(--white);
+.menu-list li {
+    /* Não precisa de estilo para o LI em si, o estilo vai no link A */
+}
+
+.menu-list li a {
+    display: flex; /* Para alinhar ícone e texto na mesma linha */
+    align-items: center; /* Centraliza verticalmente ícone e texto */
+    padding: 12px 20px; /* Padding para os itens do menu (vertical e horizontal) */
+    color: #333; 
+    text-decoration: none; /* Remove o sublinhado dos links */
+    transition: background-color 0.2s ease, color 0.2s ease; /* Transição suave para hover */
+    font-size: 0.95em; 
+}
+
+.menu-list li a i { /* Estilo para os ícones dentro dos links */
+    margin-right: 10px; /* Espaço entre o ícone e o texto do item */
+    font-size: 1.1em; /* Tamanho do ícone um pouco maior */
+    color: var(--green-dark); 
+}
+
+/* Opcional: Estilo para o item de menu ativo (adicionar esta classe via JS) */
+.menu-list li a.active {
+    background-color: var(--green-dark); /*cor de destaque para o item ativo */
+    color: var(--white); /* Texto branco no item ativo */
+}
+
+.menu-list li a:hover {
+    background-color: var(--gray-hover); /* Cor de fundo ao passar o mouse */
+}
+
+.menu-list li a.active i {
+    color: var(--white); /* Ícone branco no item ativo */
 }
 
 .content {
-    flex: 1;
+    flex: 1; /* Ocupa o restante do espaço disponível após a sidebar */
     background-color: var(--white);
     padding: 20px;
+    overflow-y: auto; /* Adiciona scroll se o conteúdo for maior que a área visível */
 }
+
+
+/* MEDIA QUERIES PARA RESPONSIVIDADE */
 
 @media (max-width: 768px) {
     .main {
-        flex-direction: column;
+        flex-direction: column; /* Sidebar e conteúdo empilham em telas menores */
     }
 
     .sidebar {
-        flex-direction: row;
         width: 100%;
-        height: 60px;
+        height: auto; /* Altura automática, para se adaptar ao conteúdo*/
+        min-height: 60px; /* Garante uma altura mínima para o menu mobile */
+        flex-direction: row; /* Itens do menu podem ficar lado a lado */
+        justify-content: space-around; /* Distribui os itens horizontalmente */
         border-right: none;
         border-bottom: 1px solid var(--gray-border);
+        padding-top: 0; /* Remove padding top no mobile */
+        padding-bottom: 0; /* Remove padding bottom, se houver */
+        position: sticky; /* Opcional: Para o menu ficar "grudado" no topo ao rolar */
+        top: 40px; /* Ajuste para ficar abaixo do header fixo */
+        z-index: 100; /* Garante que o menu fique sobre outros elementos */
     }
-    
-    .sidebar_item {
-        flex: 1;
-        height: 100%;
-        border-bottom: none;
-        border-right: 1px solid var(--gray-border);
+
+    .menu-list {
+        display: flex; /* Para os itens da lista ficarem lado a lado no mobile */
+        width: 100%;
+        justify-content: space-around; /* Distribui os itens da lista igualmente */
+        align-items: center; 
+    }
+
+    .menu-list li {
+        flex: 1; /* Cada item ocupa igual espaço na linha */
+        text-align: center; 
+    }
+
+    .menu-list li a {
+        flex-direction: column; /* Ícone em cima, texto embaixo */
+        padding: 8px 5px; /* Ajuste o padding para caber mais itens */
+        font-size: 0.75em; /* Fonte menor para caber em telas pequenas */
+        white-space: nowrap; /* Evita que o texto quebre em várias linhas */
+    }
+
+    .menu-list li a i {
+        margin-right: 0; /* Remove margem lateral do ícone */
+        margin-bottom: 5px; /* Adiciona margem abaixo do ícone para separar do texto */
+        font-size: 1.2em; /* Ícones um pouco maiores para destacar */
     }
 
     .content {
-        padding: 10px;
+        padding: 15px; /* Reduz o padding do conteúdo em telas menores */
     }
 
+}
+
+/* Ajuste adicional para o padding do .content no mobile */
+@media (max-width: 768px) {
+    .content {
+        padding: 10px; /* Revertendo para o padding de 10px que estava no código original para mobile */
+    }
 }
 
