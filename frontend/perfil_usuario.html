@@ -17,8 +17,14 @@
       <div class="user-info">
         <img src="imagens/avatar.png" alt="Foto do usuário" class="user-avatar">
           <button class="user-name" aria-haspopup="true" aria-expanded="false">
-            Mori <i class="fas fa-caret-down"></i>
+            Maria <i class="fas fa-caret-down"></i>
           </button>
+          <ul class="user-dropdown-menu">
+            <li><a href="#" id="desktop-personal">Dados Pessoais</a></li>
+            <li><a href="#">Pagamentos</a></li>
+            <li><a href="#">Credenciais</a></li>
+            <li><a href="#">Sair</a></li>
+          </ul>
       </div>
     </div>
   </header>
@@ -60,17 +66,71 @@
     </aside>
 
     <section class="content" role="main">
-      <p>Bem-vindo ao seu painel!</p>
-      <p>Aqui você encontrará todas as informações e ferramentas necessárias para gerenciar seu empreendimento.</p>
-      <div style="height: 1000px; background-color: #f0f0f0; padding: 20px; border-radius: 8px; margin-top: 20px;">
-        <p>Este é um bloco de conteúdo de exemplo para preencher o espaço e testar o scroll.</p>
-        <p>Imagine gráficos, tabelas e informações importantes do seu negócio aqui.</p>
-        <p>Como você sonha em ajudar pessoas a abrir seus negócios, essa área será o coração do seu sistema!</p>
-        <p>Foque em tornar essa experiência intuitiva e valiosa para seus futuros clientes.</p>
-        <p>Com sua visão de IA, marketing digital e empreendedorismo, você vai criar algo realmente inovador.</p>
-        <p>E a fluência em inglês em um ano vai abrir muitas portas, viu?</p>
+      <div class="profile-container">
+        <div class="profile-header-mobile">
+          <button class="back-button" aria-label="Voltar"><i class="fas fa-arrow-left"></i></button>
+          <h2>Perfil</h2>
+        </div>
+
+        <div class="profile-avatar-section">
+          <img src="imagens/avatar.png" alt="Foto de perfil" class="profile-main-avatar">
+          <h3 class="profile-name">Maria Eduarda Alves</h3>
+          <div class="profile-indicators">
+            <div class="indicator-line"></div>
+            <div class="indicator-line"></div>
+            <div class="indicator-line"></div>
+          </div>
+        </div>
+
+        <form class="profile-form">
+          <div class="form-group">
+            <label for="age">Idade</label>
+            <input type="text" id="age" name="age" value="20 anos" readonly>
+          </div>
+
+          <div class="form-group">
+            <label for="address">Logradouro</label>
+            <input type="text" id="address" name="address" value="Rua Olavio Pacheco de Souza" readonly>
+          </div>
+
+          <div class="form-group">
+            <label for="neighborhood">Bairro</label>
+            <input type="text" id="neighborhood" name="neighborhood" value="Areias de Palhocinha" readonly>
+          </div>
+
+          <div class="form-group">
+            <label for="city">Cidade</label>
+            <input type="text" id="city" name="city" value="Garopaba" readonly>
+          </div>
+
+          <div class="form-group">
+            <label for="state">Estado</label>
+            <input type="text" id="state" name="state" value="Santa Catarina" readonly>
+          </div>
+
+          <div class="form-group">
+            <label for="bio">Biografia</label>
+            <textarea id="bio" name="bio" rows="4" readonly>Minha biografia aqui...</textarea>
+          </div>
+
+          <button type="button" class="btn-edit-profile">Editar perfil</button>
+        </form>
+      </div>
+      <div class="user-mobile-menu">
+        <div class="user-mobile-menu-header">
+          <button class="close-mobile-menu-button"><i class="fas fa-times"></i></button>
+          <h2>Menu do Usuário</h2>
+        </div>
+        <ul class="mobile-menu-options">
+          <li><a href="#" id="mobile-personal-data-link"><i class="fas fa-user"></i> Dados Pessoais</a></li>
+          <li><a href="#"><i class="fas fa-money-bill-wave"></i> Pagamentos</a></li>
+          <li><a href="#"><i class="fas fa-key"></i> Credenciais</a></li>
+          <li><a href="#"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
+        </ul>
       </div>
     </section>
   </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
