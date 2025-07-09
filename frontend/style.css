@@ -4,8 +4,9 @@
     --white: #fff;
     --gray-light: #F5F5F5;
     --gray-hover: #F0F0F0;
+    --light-blue: #007BFF; /* Para foco de input */
+    --light-blue-shadow: rgba(0,123,255,0.25) /* Sombra para foco de input */
 }
-
 
 * {
     margin: 0;
@@ -36,7 +37,7 @@ header > h1 {
     margin: 0; /* Remove margem padrão do h1 */
 }
 
-.top-bar__right {
+.top-bar-right {
   display: flex;
   align-items: center; /* Alinha verticalmente os itens do lado direito */
   gap: 20px;
@@ -55,11 +56,13 @@ header > h1 {
 }
 
 .user-info {
+  position: relative; /* Para posicionar o dropdown absolutamente em relação a ele */
   display: flex;
   align-items: center;
   gap: 8px;
   padding: 6px 10px;
   border-radius: 4px;
+  background-color: rgba(255,255,255,0.1);
 }
 
 .user-avatar {
@@ -69,17 +72,61 @@ header > h1 {
   object-fit: cover;
 }
 
-.user-name {
+.user-name-trigger {
   background: none;
   border: none;
   color: var(--white);
   font-size: 0.9rem;
   cursor: pointer;
   font-family: Arial, sans-serif;
+  display: flex; /* Para alinhar o nome e a seta para baixo */
+  align-items: center;
+  gap: 5px;
 }
 
+/* Estilo para o Dropdown do Perfil (Desktop) */
+.user-dropdown-menu {
+    position: absolute;
+    top: 100%; /* Começa logo abaixo do user-info */
+    right: 0; /* Alinha à direita do user-info */
+    background-color: var(--white);
+    border: 1px solid var(--gray-border);
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    list-style: none;
+    padding: 10px 0;
+    margin: 0;
+    min-width: 180px; 
+    z-index: 200; /* Garante que fique acima de outros elementos */
 
-/* CONTAINER FLEX P/ LAYOUT PRINCIPAL*/
+    /* Por padrão, escondido no desktop. O JS (ou :hover) vai mostrar. */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* Regra para mostrar o dropdown no hover (apenas desktop) */
+.user-info:hover .user-dropdown-menu,
+.user-info.active .user-dropdown-menu { /* Adicione 'active' via JS no click */
+    opacity: 1;
+    visibility: visible;
+}
+
+.user-dropdown-menu li a {
+    display: block;
+    padding: 8px 20px;
+    color: #333;
+    text-decoration: none;
+    font-size: 0.9em;
+    white-space: nowrap; /* Evita quebra de linha */
+    transition: background-color 0.2s ease;
+}
+
+.user-dropdown-menu li a:hover {
+    background-color: var(--gray-light);
+}
+
+/* NOVO CONTÊINER FLEX PARA LAYOUT PRINCIPAL */
 .main-layout {
     display: flex;
 
@@ -94,8 +141,14 @@ header > h1 {
     display: flex;
     flex-direction: column; /* Para os itens do menu ficarem um abaixo do outro */
     padding-top: 20px; 
-    overflow-y: auto; /* Adiciona scroll se o menu for muito grande */
+    overflow-y: auto;
     flex-shrink: 0; /* Garante que a sidebar não encolha em telas maiores */
+}
+
+.menu-list {
+    list-style: none; /* Remove os pontinhos da lista padrão */
+    padding: 0; /* Remove padding padrão da UL */
+    margin: 0; /* Remove margem padrão da UL */
 }
 
 .menu-list li {
@@ -104,12 +157,12 @@ header > h1 {
 
 .menu-list li a {
     display: flex; /* Para alinhar ícone e texto na mesma linha */
-    align-items: center; /* Centraliza verticalmente ícone e texto */
-    padding: 12px 20px; /* Padding para os itens do menu (vertical e horizontal) */
-    color: #333; 
-    text-decoration: none; /* Remove o sublinhado dos links */
+    align-items: center;
+    padding: 12px 20px;
+    color: #333;
+    text-decoration: none;
     transition: background-color 0.2s ease, color 0.2s ease; /* Transição suave para hover */
-    font-size: 0.95em; 
+    font-size: 0.95em;
 }
 
 .menu-list li a i { /* Estilo para os ícones dentro dos links */
@@ -118,14 +171,14 @@ header > h1 {
     color: var(--green-dark); 
 }
 
-/* Opcional: Estilo para o item de menu ativo (adicionar esta classe via JS) */
-.menu-list li a.active {
-    background-color: var(--green-dark); /*cor de destaque para o item ativo */
-    color: var(--white); /* Texto branco no item ativo */
-}
-
 .menu-list li a:hover {
     background-color: var(--gray-hover); /* Cor de fundo ao passar o mouse */
+}
+
+/* Estilo para o item de menu ativo (adicionar esta classe via JS) */
+.menu-list li a.active {
+    background-color: var(--green-dark); /* Cor de destaque para o item ativo */
+    color: var(--white); /* Texto branco no item ativo */
 }
 
 .menu-list li a.active i {
@@ -135,26 +188,242 @@ header > h1 {
 .content {
     flex: 1; /* Ocupa o restante do espaço disponível após a sidebar */
     background-color: var(--white);
-    padding: 20px;
+    padding: 20px; /* Ao redor do conteúdo */
     overflow-y: auto; /* Adiciona scroll se o conteúdo for maior que a área visível */
 }
 
+/* Container principal do conteúdo do perfil */
+.profile-container {
+    max-width: 600px; /* Largura para não ficar muito esticado em telas grandes */
+    margin: 20px auto; /* Centraliza horizontalmente e adiciona margem superior */
+    padding: 20px;
+    background-color: var(--white);
+    border-radius: 8px; 
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
 
-/* MEDIA QUERIES PARA RESPONSIVIDADE */
+/* Header interno da página de perfil (para mobile) - oculto por padrão no desktop */
+.profile-header-mobile {
+    display: none; /* Por padrão escondido no desktop */
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--gray-border);
+}
+
+.profile-header-mobile h2 {
+    flex-grow: 1; /* Permite que o título ocupe o espaço restante */
+    text-align: center;
+    margin-right: 30px; /* Espaço para o botão de voltar */
+    font-size: 1.3em;
+    color: var(--green-dark);
+}
+
+.back-button {
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    color: #333;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Seção do Avatar e Nome da página de perfil */
+.profile-avatar-section {
+    text-align: center; 
+    margin-bottom: 30px;
+}
+
+.profile-main-avatar {
+    width: 100px; 
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--green-dark);
+    padding: 3px; /* Espaço entre a imagem e a borda */
+    margin-bottom: 10px;
+}
+
+.profile-name {
+    font-size: 1.6em;
+    color: var(--green-dark);
+    margin-bottom: 5px;
+}
+
+/* Indicadores de linha (opcional, se for apenas visual) */
+.profile-indicators {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.indicator-line {
+    width: 30px;
+    height: 3px;
+    background-color: var(--gray-border);
+    border-radius: 2px;
+}
+
+/* Formulário e Campos da página de perfil */
+.profile-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Espaçamento entre os grupos de formulário */
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 5px;
+    font-size: 0.9em;
+}
+
+.form-group input[type="text"],
+.form-group textarea {
+    padding: 10px 15px;
+    border: 1px solid var(--gray-border);
+    border-radius: 5px;
+    font-size: 1em;
+    color: #333;
+    background-color: var(--gray-light); /* Fundo cinza claro para campos readonly */
+    cursor: default; /* Cursor padrão quando readonly */
+}
+
+/* Estilo para campos que podem ser editados (quando o readonly for removido pelo JS) */
+.form-group input[type="text"]:not([readonly]),
+.form-group textarea:not([readonly]) {
+    background-color: var(--white); /* Fundo branco para campos editáveis */
+    border-color: var(--green-dark); /* Borda verde escura para destacar */
+    cursor: text; /* Cursor de texto quando editável */
+}
+
+.form-group input[type="text"]:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--light-blue); /* Cor ao focar */
+    box-shadow: 0 0 0 3px var(--light-blue-shadow); /* Sombra suave ao focar */
+}
+
+/* Botão de Edição/Salvar */
+.btn-edit-profile {
+    background-color: var(--green-dark);
+    color: var(--white);
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px; /* Espaço acima do botão */
+    align-self: center; /* Centraliza o botão se o form for flex column */
+    max-width: 250px; /* Limita a largura do botão para não ficar muito grande */
+    width: 100%;
+}
+
+.btn-edit-profile:hover {
+    background-color: #0056b3; /* Um tom um pouco mais escuro de verde */
+    opacity: 0.9;
+}
+
+/* Estilo para o Menu do Usuário (Mobile) - inicialmente escondido */
+.user-mobile-menu {
+    position: fixed; /* Ocupa a tela inteira */
+    top: 0;
+    left: 0;
+    width: 100vw; /* Viewport width */
+    height: 100vh; /* Viewport height */
+    background-color: var(--white); /* Fundo branco da "página" */
+    z-index: 500; /* Acima de tudo */
+    display: none; /* Escondido por padrão, JavaScript vai mostrar */
+    flex-direction: column; /* Para os elementos internos */
+    /* Removido padding-top para o header fixed. Conteúdo vai abaixo do header */
+    overflow-y: auto; /* Permite rolagem se o conteúdo for maior que a tela */
+}
+
+.user-mobile-menu-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 20px;
+    background-color: var(--green-dark); /* Fundo do header do menu mobile */
+    color: var(--white);
+    position: sticky; /* Fixo no topo do mobile menu */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 501; /* Acima do conteúdo do mobile menu */
+}
+
+.user-mobile-menu-header h2 {
+    flex-grow: 1;
+    text-align: center;
+    margin-right: 30px; /* Para o botão de fechar */
+    font-size: 1.3em;
+}
+
+.close-mobile-menu-button {
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    color: var(--white);
+    cursor: pointer;
+    padding: 5px;
+}
+
+.mobile-menu-options {
+    list-style: none;
+    padding: 20px;
+    margin: 0;
+    flex-grow: 1; /* Para ocupar o espaço restante */
+    /* Removido overflow-y: auto; aqui, já está no .user-mobile-menu */
+}
+
+.mobile-menu-options li a {
+    display: flex;
+    align-items: center;
+    padding: 15px 10px;
+    border-bottom: 1px solid var(--gray-border);
+    color: #333;
+    text-decoration: none;
+    font-size: 1.1em;
+    transition: background-color 0.2s ease;
+}
+
+.mobile-menu-options li a i {
+    margin-right: 15px;
+    font-size: 1.3em;
+    color: var(--green-dark);
+}
+
+.mobile-menu-options li a:hover {
+    background-color: var(--gray-light);
+}
+
+/* ========================================= */
+/* MEDIA QUERIES PARA RESPONSIVIDADE GERAL E DO PERFIL */
+/* ========================================= */
 
 @media (max-width: 768px) {
-    .main {
+    /* Ajustes gerais de layout em mobile */
+    .main-layout {
         flex-direction: column; /* Sidebar e conteúdo empilham em telas menores */
     }
 
     .sidebar {
-        width: 100%;
+        width: 100%; /* Ocupa a largura total da tela */
         height: auto; /* Altura automática, para se adaptar ao conteúdo*/
         min-height: 60px; /* Garante uma altura mínima para o menu mobile */
         flex-direction: row; /* Itens do menu podem ficar lado a lado */
         justify-content: space-around; /* Distribui os itens horizontalmente */
-        border-right: none;
-        border-bottom: 1px solid var(--gray-border);
+        border-right: none; /* Remove a borda lateral */
+        border-bottom: 1px solid var(--gray-border); /* Adiciona uma borda inferior */
         padding-top: 0; /* Remove padding top no mobile */
         padding-bottom: 0; /* Remove padding bottom, se houver */
         position: sticky; /* Opcional: Para o menu ficar "grudado" no topo ao rolar */
@@ -166,12 +435,12 @@ header > h1 {
         display: flex; /* Para os itens da lista ficarem lado a lado no mobile */
         width: 100%;
         justify-content: space-around; /* Distribui os itens da lista igualmente */
-        align-items: center; 
+        align-items: center;
     }
 
     .menu-list li {
         flex: 1; /* Cada item ocupa igual espaço na linha */
-        text-align: center; 
+        text-align: center;
     }
 
     .menu-list li a {
@@ -188,15 +457,47 @@ header > h1 {
     }
 
     .content {
-        padding: 15px; /* Reduz o padding do conteúdo em telas menores */
+        padding: 10px; /* Ajuste o padding do conteúdo em telas menores */
     }
 
-}
+    /* Ocultar o dropdown do desktop em mobile */
+    .user-dropdown-menu {
+        display: none !important; /* Força a ocultação */
+        opacity: 0 !important;
+        visibility: hidden !important;
+    }
 
-/* Ajuste adicional para o padding do .content no mobile */
-@media (max-width: 768px) {
-    .content {
-        padding: 10px; /* Revertendo para o padding de 10px que estava no código original para mobile */
+    /* Mostrar o header da página de perfil no mobile */
+    .profile-header-mobile {
+        display: flex; /* Agora sim, mostra no mobile */
+    }
+
+    /* Ajustes para o botão "Mori" no mobile: agora ele vai abrir o .user-mobile-menu */
+    .user-name-trigger {
+        font-size: 0; /* Esconde o texto "Mori" no mobile */
+        gap: 0; /* Remove o gap */
+        padding: 0; /* Remove padding */
+        width: 100%; /* Permite que o avatar seja o único clickable */
+        height: 100%; /* Permite que o avatar seja o único clickable */
+        display: flex; /* Garante que o avatar seja alinhado se estiver dentro */
+        justify-content: center;
+        align-items: center;
+    }
+
+    .user-name-trigger i { /* Ajusta a seta para baixo, se mantiver */
+        display: none; /* Esconder a seta no mobile se o nome já estiver escondido */
+    }
+    
+    .user-avatar { /* No mobile, o avatar pode ser o único clickable */
+        cursor: pointer;
+        /* Pode precisar de ajustes de tamanho se ele estiver dentro do user-name-trigger */
+    }
+
+    /* Ajustes para o menu mobile para garantir que o conteúdo não se sobreponha ao header fixo */
+    .user-mobile-menu {
+        padding-top: 50px; /* Para dar espaço ao header do menu mobile */
+    }
+    .user-mobile-menu-header {
+         /* Já é sticky, então não precisa de top aqui, mas o padding-top acima compensa */
     }
 }
-
